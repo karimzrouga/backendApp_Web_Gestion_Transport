@@ -79,27 +79,7 @@ namespace WebApplication2.Controllers
 
             return NoContent();
         }
-       /* [HttpPost("PostChauffeur")]
-        public async Task<ActionResult<Chauffeur>> PostChauffeur(Chauffeur chauffeur)
-        {
-            if (string.IsNullOrEmpty(chauffeur.Agence))
-            {
-                return BadRequest("Chauffeur property is required.");
-            }
-
-
-            var agence = await _context.Agences.FirstOrDefaultAsync(a => a.Nom == chauffeur.Agence);
-            if (agence == null)
-            {
-                return BadRequest("Chauffeur not found.");
-            }
-
-            chauffeur.AgenceNavigation = agence;
-            _context.Chauffeurs.Add(chauffeur);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetChauffeur", new { id = chauffeur.Id }, chauffeur);
-        }*/
+      
         // POST: api/ListePlanifications
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("{id}")]

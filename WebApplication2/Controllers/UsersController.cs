@@ -28,7 +28,7 @@ namespace WebApplication2.Controllers
           {
               return NotFound();
           }
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(e=>e.Cotisations).ToListAsync();
         }
 
         // GET: api/Users/5
@@ -39,7 +39,7 @@ namespace WebApplication2.Controllers
           {
               return NotFound();
           }
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.Include(e => e.Cotisations).FirstOrDefaultAsync(e => e.Id == id);
 
             if (user == null)
             {
