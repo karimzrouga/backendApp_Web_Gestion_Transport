@@ -15,6 +15,6 @@ public partial class Permission
     public int Delete { get; set; }
 
     public int Consulte { get; set; }
-
-    public virtual ICollection<User>? Users { get; set; } 
+    [JsonIgnore]
+    public virtual ICollection<User>? Users { get; set; } = new List<User>();
 }

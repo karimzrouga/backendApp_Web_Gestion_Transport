@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Gestpsfe.Models;
 
-public partial class Vehicule
+public partial class Vehicule 
 {
     public int Id { get; set; }
 
@@ -12,8 +13,9 @@ public partial class Vehicule
     public int Capacite { get; set; }
 
     public int AgenceId { get; set; }
+    [JsonIgnore]
+    public virtual Agence ?Agence { get; set; } = null!;
 
-    public virtual Agence Agence { get; set; } = null!;
+    public virtual ICollection<Station> ?Stations { get; set; } =   new List<Station>();
 
-    public virtual ICollection<Station> Stations { get; set; } = null!;
 }

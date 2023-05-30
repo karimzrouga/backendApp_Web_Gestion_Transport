@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Gestpsfe.Models;
 
@@ -14,6 +15,6 @@ public partial class Facturation
     public string Description { get; set; } = null!;
 
     public int AgenceId { get; set; }
-
-    public virtual Agence Agence { get; set; } = null!;
+    [JsonIgnore]
+    public virtual Agence ?Agence { get; set; } = null!;
 }

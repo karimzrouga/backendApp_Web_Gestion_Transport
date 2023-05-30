@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Gestpsfe.Models;
 
@@ -10,6 +11,7 @@ public partial class PlanificationParAgence
     public int Nbbus { get; set; }
 
     public int Capacite { get; set; }
-
-    public virtual ICollection<Agence> Agences { get; set; } = null!;
+    public int? AgenceId { get; set; }
+    [JsonIgnore]
+    public virtual Agence ? Agence { get; set; } = null!;
 }

@@ -4,8 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace Gestpsfe.Models;
 
-public partial class User
+public partial class User 
 {
+    public User()
+    {
+        CreatedDate = DateTime.Now;
+    }
     public int Id { get; set; }
 
     public string Nom { get; set; } = null!;
@@ -33,15 +37,16 @@ public partial class User
 
 
     public int? ShiftId { get; set; }
+    [JsonIgnore]
     public virtual Shift? Shift { get; set; }
 
 public string? Token { get; set; }
 
     public double Salaire { get; set; }
 
-    public virtual ICollection<Cotisation> Cotisations { get; set; } = new List<Cotisation>();
+    public virtual ICollection<Cotisation> ?Cotisations { get; set; } = new List<Cotisation>();
 
-  
+
 
 
 

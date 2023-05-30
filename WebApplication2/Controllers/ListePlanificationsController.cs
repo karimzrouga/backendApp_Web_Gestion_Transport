@@ -82,30 +82,23 @@ namespace WebApplication2.Controllers
       
         // POST: api/ListePlanifications
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("{id}")]
-        public async Task<ActionResult<User>> PostListePlanification(ListePlanification listePlanification , int iduser)
+        [HttpPost]
+        public async Task<ActionResult<User>> PostListePlanification(ListePlanification listePlanification )
         {
           if (_context.ListePlanifications == null)
           {
               return Problem("Entity set 'PfeContext.ListePlanifications'  is null.");
           }
-            var user =await _context.Users.FindAsync(iduser);
-           // return user;
-            if (user != null)
-            {
-                listePlanification.Users.Add(user);
-              
+            
+            
                 _context.ListePlanifications.Add(listePlanification);
              
                await _context.SaveChangesAsync();
 
 
                 return CreatedAtAction("GetListePlanification", new { id = listePlanification.Id }, listePlanification);
-            }
-            else
-            {
-                return Problem("Entity user'  is null.");
-            }
+            
+
            
         }
 

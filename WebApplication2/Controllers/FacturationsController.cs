@@ -11,55 +11,55 @@ namespace WebApplication2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AgencesController : ControllerBase
+    public class FacturationsController : ControllerBase
     {
         private readonly PfeContext _context;
 
-        public AgencesController(PfeContext context)
+        public FacturationsController(PfeContext context)
         {
             _context = context;
         }
 
-        // GET: api/Agences
+        // GET: api/Facturations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Agence>>> GetAgences()
+        public async Task<ActionResult<IEnumerable<Facturation>>> GetFacturations()
         {
-          if (_context.Agences == null)
+          if (_context.Facturations == null)
           {
               return NotFound();
           }
-            return await _context.Agences.Include(e => e.Vehicules).Include(e => e.Facturations).Include(e => e.PlanificationParAgences).ToListAsync();
+            return await _context.Facturations.ToListAsync();
         }
 
-        // GET: api/Agences/5
+        // GET: api/Facturations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Agence>> GetAgence(int id)
+        public async Task<ActionResult<Facturation>> GetFacturation(int id)
         {
-          if (_context.Agences == null)
+          if (_context.Facturations == null)
           {
               return NotFound();
           }
-            var agence = await _context.Agences.Include(e => e.Vehicules).Include(e => e.Facturations).Include(e => e.PlanificationParAgences).FirstOrDefaultAsync(e => e.Id == id);
+            var facturation = await _context.Facturations.FindAsync(id);
 
-            if (agence == null)
+            if (facturation == null)
             {
                 return NotFound();
             }
 
-            return agence;
+            return facturation;
         }
 
-        // PUT: api/Agences/5
+        // PUT: api/Facturations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAgence(int id, Agence agence)
+        public async Task<IActionResult> PutFacturation(int id, Facturation facturation)
         {
-            if (id != agence.Id)
+            if (id != facturation.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(agence).State = EntityState.Modified;
+            _context.Entry(facturation).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace WebApplication2.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AgenceExists(id))
+                if (!FacturationExists(id))
                 {
                     return NotFound();
                 }
@@ -80,44 +80,44 @@ namespace WebApplication2.Controllers
             return NoContent();
         }
 
-        // POST: api/Agences
+        // POST: api/Facturations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Agence>> PostAgence(Agence agence)
+        public async Task<ActionResult<Facturation>> PostFacturation(Facturation facturation)
         {
-          if (_context.Agences == null)
+          if (_context.Facturations == null)
           {
-              return Problem("Entity set 'PfeContext.Agences'  is null.");
+              return Problem("Entity set 'PfeContext.Facturations'  is null.");
           }
-            _context.Agences.Add(agence);
+            _context.Facturations.Add(facturation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAgence", new { id = agence.Id }, agence);
+            return CreatedAtAction("GetFacturation", new { id = facturation.Id }, facturation);
         }
 
-        // DELETE: api/Agences/5
+        // DELETE: api/Facturations/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAgence(int id)
+        public async Task<IActionResult> DeleteFacturation(int id)
         {
-            if (_context.Agences == null)
+            if (_context.Facturations == null)
             {
                 return NotFound();
             }
-            var agence = await _context.Agences.FindAsync(id);
-            if (agence == null)
+            var facturation = await _context.Facturations.FindAsync(id);
+            if (facturation == null)
             {
                 return NotFound();
             }
 
-            _context.Agences.Remove(agence);
+            _context.Facturations.Remove(facturation);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AgenceExists(int id)
+        private bool FacturationExists(int id)
         {
-            return (_context.Agences?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Facturations?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

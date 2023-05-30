@@ -13,5 +13,5 @@ public partial class Shift
 
     public DateTime CreatedDate { get; set; }
 
-    public virtual ICollection<User> Users { get; set; } = null!;
+    public virtual ICollection<User> ?Users { get; set; } = new List<User>();
 }

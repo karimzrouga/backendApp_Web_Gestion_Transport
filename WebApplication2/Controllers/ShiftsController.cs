@@ -11,56 +11,55 @@ namespace WebApplication2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class ShiftsController : ControllerBase
     {
         private readonly PfeContext _context;
 
-        public UsersController(PfeContext context)
+        public ShiftsController(PfeContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Shifts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Shift>>> GetShifts()
         {
-          if (_context.Users == null)
+          if (_context.Shifts == null)
           {
               return NotFound();
           }
-            return await _context.Users.Include(e=>e.Cotisations).ToListAsync();
+            return await _context.Shifts.Include(e => e.Users).ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Shifts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Shift>> GetShift(int id)
         {
-          if (_context.Users == null)
+          if (_context.Shifts == null)
           {
               return NotFound();
           }
-            var user = await _context.Users.Include(e => e.Cotisations).Include(e => e.Permission).Include(e => e.Role).Include(e => e.Shift)
-                .FirstOrDefaultAsync(e => e.Id == id);
+            var shift = await _context.Shifts.Include(e => e.Users).FirstOrDefaultAsync(e => e.Id == id);
 
-            if (user == null)
+            if (shift == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return shift;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Shifts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutShift(int id, Shift shift)
         {
-            if (id != user.Id)
+            if (id != shift.Id)
             {
                 return BadRequest();
             }
-              user.CreatedDate = DateTime.Now;
-            _context.Entry(user).State = EntityState.Modified;
+
+            _context.Entry(shift).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +67,7 @@ namespace WebApplication2.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!ShiftExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +80,44 @@ namespace WebApplication2.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Shifts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Shift>> PostShift(Shift shift)
         {
-          if (_context.Users == null)
+          if (_context.Shifts == null)
           {
-              return Problem("Entity set 'PfeContext.Users'  is null.");
+              return Problem("Entity set 'PfeContext.Shifts'  is null.");
           }
-            _context.Users.Add(user);
+            _context.Shifts.Add(shift);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetShift", new { id = shift.Id }, shift);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Shifts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteShift(int id)
         {
-            if (_context.Users == null)
+            if (_context.Shifts == null)
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var shift = await _context.Shifts.FindAsync(id);
+            if (shift == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Shifts.Remove(shift);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool ShiftExists(int id)
         {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Shifts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

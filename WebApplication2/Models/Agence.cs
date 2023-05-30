@@ -1,7 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
-
+using System.Text.Json.Serialization;
 namespace Gestpsfe.Models;
 
 public partial class Agence
@@ -18,8 +18,9 @@ public partial class Agence
 
     public string Matricule { get; set; } = null!;
 
-    public virtual ICollection<Facturation> Facturations { get; set; } = null!;
-    public virtual ICollection<Vehicule> Vehicules { get; set; } = null!;
+    public virtual ICollection<Facturation> ?Facturations { get; set; } = new List<Facturation>();
+   
+    public virtual ICollection<Vehicule> ?Vehicules { get; set; } = new List<Vehicule>();
 
-    public virtual ICollection<PlanificationParAgence> Planifications { get; set; } = null!;
+    public virtual ICollection<PlanificationParAgence> ? PlanificationParAgences { get; set; } = new List<PlanificationParAgence>();
 }

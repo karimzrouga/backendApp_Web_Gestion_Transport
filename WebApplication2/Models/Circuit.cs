@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Gestpsfe.Models;
 
@@ -10,6 +11,6 @@ public partial class Circuit
     public string CircuitName { get; set; } = null!;
 
     public double Cout { get; set; }
-
-    public virtual ICollection<Station> Stations { get; set; } = null!;
+   
+    public virtual ICollection<Station>? Stations { get; set; } = new List<Station>();
 }
