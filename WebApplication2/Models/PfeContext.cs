@@ -37,4 +37,32 @@ public partial class PfeContext : DbContext
 
     public virtual DbSet<Vehicule> Vehicules { get; set; }
 
+
+
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Configuration pour rendre l'attribut Matricule unique dans le modèle Agence
+        modelBuilder.Entity<Agence>()
+            .HasIndex(a => a.Matricule)
+            .IsUnique();
+
+        // Configuration pour rendre l'attribut Email unique dans le modèle User
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Matricule)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+          .HasIndex(u => u.Email)
+          .IsUnique();
+        // Configuration pour rendre l'attribut Immatricule unique dans le modèle User
+        modelBuilder.Entity<Vehicule>()
+            .HasIndex(u => u.Immatricule)
+            .IsUnique();
+
+
+    }
+
 }

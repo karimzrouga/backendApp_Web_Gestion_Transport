@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class AgencesController : ControllerBase
@@ -21,6 +23,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Agences
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Agence>>> GetAgences()
         {
@@ -32,6 +35,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Agences/5
+        //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Agence>> GetAgence(int id)
         {
@@ -51,9 +55,11 @@ namespace WebApplication2.Controllers
 
         // PUT: api/Agences/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAgence(int id, Agence agence)
         {
+            agence.UpdatedAt = DateTime.Now;
             if (id != agence.Id)
             {
                 return BadRequest();
@@ -81,7 +87,8 @@ namespace WebApplication2.Controllers
         }
 
         // POST: api/Agences
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754 
+        //[Authorize]
         [HttpPost]
         public async Task<ActionResult<Agence>> PostAgence(Agence agence)
         {
@@ -96,6 +103,7 @@ namespace WebApplication2.Controllers
         }
 
         // DELETE: api/Agences/5
+        //[Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAgence(int id)
         {

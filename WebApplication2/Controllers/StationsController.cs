@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -21,6 +22,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Stations
+         //[Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Station>>> GetStations()
         {
@@ -34,6 +36,7 @@ namespace WebApplication2.Controllers
 
 
         // GET: api/addstation/5/1
+         //[Authorize]
         [HttpGet("{id}/{idcircuit}")]
         public async Task<ActionResult<Vehicule>> addstation(int id, int idcircuit)
         {
@@ -74,6 +77,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Stations/5
+         //[Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Station>> GetStation(int id)
         {
@@ -94,9 +98,11 @@ namespace WebApplication2.Controllers
 
         // PUT: api/Stations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+         //[Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStation(int id, Station station)
         {
+            station.UpdatedAt = DateTime.Now;
             if (id != station.Id)
             {
                 return BadRequest();
@@ -125,6 +131,7 @@ namespace WebApplication2.Controllers
 
         // POST: api/Stations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+         //[Authorize]
         [HttpPost]
         public async Task<ActionResult<Station>> PostStation(Station station)
         {
@@ -139,6 +146,7 @@ namespace WebApplication2.Controllers
         }
 
         // DELETE: api/Stations/5
+         //[Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStation(int id)
         {

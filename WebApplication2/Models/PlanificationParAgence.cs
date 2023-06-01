@@ -14,4 +14,11 @@ public partial class PlanificationParAgence
     public int? AgenceId { get; set; }
     [JsonIgnore]
     public virtual Agence ? Agence { get; set; } = null!;
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public PlanificationParAgence()
+    {
+        CreatedAt = DateTime.Now;
+        UpdatedAt = DateTime.Now;
+    }
 }

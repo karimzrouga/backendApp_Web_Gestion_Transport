@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -22,6 +23,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/ListePlanifications
         [HttpGet]
+         //[Authorize]
         public async Task<ActionResult<IEnumerable<ListePlanification>>> GetListePlanifications()
         {
           if (_context.ListePlanifications == null)
@@ -33,6 +35,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/ListePlanifications/5
         [HttpGet("{id}")]
+         //[Authorize]
         public async Task<ActionResult<ListePlanification>> GetListePlanification(int id)
         {
           if (_context.ListePlanifications == null)
@@ -52,8 +55,10 @@ namespace WebApplication2.Controllers
         // PUT: api/ListePlanifications/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+         //[Authorize]
         public async Task<IActionResult> PutListePlanification(int id, ListePlanification listePlanification)
         {
+            listePlanification.UpdatedAt = DateTime.Now;
             if (id != listePlanification.Id)
             {
                 return BadRequest();
@@ -83,6 +88,7 @@ namespace WebApplication2.Controllers
         // POST: api/ListePlanifications
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+         //[Authorize]
         public async Task<ActionResult<User>> PostListePlanification(ListePlanification listePlanification )
         {
           if (_context.ListePlanifications == null)
@@ -104,6 +110,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/ListePlanifications/5
         [HttpDelete("{id}")]
+         //[Authorize]
         public async Task<IActionResult> DeleteListePlanification(int id)
         {
             if (_context.ListePlanifications == null)
