@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -22,6 +24,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Shifts
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Shift>>> GetShifts()
         {
           if (_context.Shifts == null)
@@ -32,6 +35,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Shifts/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Shift>> GetShift(int id)
         {
@@ -52,8 +56,10 @@ namespace WebApplication2.Controllers
         // PUT: api/Shifts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutShift(int id, Shift shift)
         {
+            shift.UpdatedAt = DateTime.Now;
             if (id != shift.Id)
             {
                 return BadRequest();
@@ -83,6 +89,7 @@ namespace WebApplication2.Controllers
         // POST: api/Shifts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Shift>> PostShift(Shift shift)
         {
           if (_context.Shifts == null)
@@ -97,6 +104,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/Shifts/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteShift(int id)
         {
             if (_context.Shifts == null)

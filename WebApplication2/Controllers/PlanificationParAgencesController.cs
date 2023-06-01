@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -21,6 +22,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/PlanificationParAgences
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlanificationParAgence>>> GetPlanificationParAgences()
         {
@@ -32,6 +34,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/PlanificationParAgences/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<PlanificationParAgence>> GetPlanificationParAgence(int id)
         {
@@ -51,9 +54,11 @@ namespace WebApplication2.Controllers
 
         // PUT: api/PlanificationParAgences/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlanificationParAgence(int id, PlanificationParAgence planificationParAgence)
         {
+            planificationParAgence.UpdatedAt = DateTime.Now;
             if (id != planificationParAgence.Id)
             {
                 return BadRequest();
@@ -82,6 +87,7 @@ namespace WebApplication2.Controllers
 
         // POST: api/PlanificationParAgences
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<PlanificationParAgence>> PostPlanificationParAgence(PlanificationParAgence planificationParAgence)
         {
@@ -96,6 +102,7 @@ namespace WebApplication2.Controllers
         }
 
         // DELETE: api/PlanificationParAgences/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlanificationParAgence(int id)
         {

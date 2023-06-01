@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -21,6 +18,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Users
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -32,6 +30,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Users/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
@@ -52,6 +51,7 @@ namespace WebApplication2.Controllers
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -59,7 +59,7 @@ namespace WebApplication2.Controllers
             {
                 return BadRequest();
             }
-              user.CreatedDate = DateTime.Now;
+              user.UpdatedAt = DateTime.Now;
             _context.Entry(user).State = EntityState.Modified;
 
             try
@@ -83,6 +83,7 @@ namespace WebApplication2.Controllers
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
@@ -90,6 +91,11 @@ namespace WebApplication2.Controllers
           {
               return Problem("Entity set 'PfeContext.Users'  is null.");
           }
+            var myuser = await _context.Users.FirstOrDefaultAsync(e=> e.Email == user.Email);
+            if (myuser!=null)
+            {
+                return Problem("Email Alderly Used.");
+            }
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -97,6 +103,7 @@ namespace WebApplication2.Controllers
         }
 
         // DELETE: api/Users/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -120,5 +127,6 @@ namespace WebApplication2.Controllers
         {
             return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+       
     }
 }

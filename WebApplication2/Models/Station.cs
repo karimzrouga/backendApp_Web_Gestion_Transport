@@ -26,6 +26,12 @@ public partial class Station
 
         return this.Id == item.Id;
     }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public Station()
+    {
+        CreatedAt = DateTime.Now;
+        UpdatedAt = DateTime.Now;
+    }
 
-    
 }

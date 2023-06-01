@@ -7,7 +7,7 @@ namespace Gestpsfe.Models;
 public partial class ListePlanification
 {
     public int Id { get; set; }
-
+   
     public string PlanificationName { get; set; } = null!;
 
     public DateTime Entre { get; set; }
@@ -17,4 +17,11 @@ public partial class ListePlanification
     public DateTime Repos { get; set; }
 
     public virtual ICollection<User> ? Users { get; set; }  =new Collection<User>();
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public ListePlanification()
+    {
+        CreatedAt = DateTime.Now;
+        UpdatedAt = DateTime.Now;
+    }
 }

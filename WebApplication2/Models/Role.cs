@@ -17,4 +17,12 @@ public partial class Role
     public string Description { get; set; } = null!;
     [JsonIgnore]
     public virtual ICollection<User> ? Users  { get; set; } = new List<User>();
+
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public Role()
+    {
+        CreatedAt = DateTime.Now;
+        UpdatedAt = DateTime.Now;
+    }
 }

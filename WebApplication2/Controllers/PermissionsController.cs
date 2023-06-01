@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -22,6 +23,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Permissions
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Permission>>> GetPermissions()
         {
           if (_context.Permissions == null)
@@ -33,6 +35,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Permissions/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Permission>> GetPermission(int id)
         {
           if (_context.Permissions == null)
@@ -52,8 +55,10 @@ namespace WebApplication2.Controllers
         // PUT: api/Permissions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutPermission(int id, Permission permission)
         {
+            permission.UpdatedAt = DateTime.Now;
             if (id != permission.Id)
             {
                 return BadRequest();
@@ -97,6 +102,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/Permissions/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeletePermission(int id)
         {
             if (_context.Permissions == null)

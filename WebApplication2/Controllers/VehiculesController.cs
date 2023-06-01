@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
 using static System.Collections.Specialized.BitVector32;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -22,6 +23,7 @@ namespace WebApplication2.Controllers
         }
 
         // GET: api/Vehicules
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vehicule>>> GetVehicules()
         {
@@ -35,6 +37,7 @@ namespace WebApplication2.Controllers
 
 
         // GET: api/addstation/5/1
+        [Authorize]
         [HttpGet("{id}/{idstat}")]
         public async Task<ActionResult<Vehicule>> addstation(int id, int idstat)
         {
@@ -80,6 +83,7 @@ namespace WebApplication2.Controllers
 
 
         // GET: api/Vehicules/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Vehicule>> GetVehicule(int id)
         {
@@ -100,9 +104,11 @@ namespace WebApplication2.Controllers
 
         // PUT: api/Vehicules/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVehicule(int id, Vehicule vehicule)
         {
+            vehicule.UpdatedAt = DateTime.Now;
             if (id != vehicule.Id)
             {
                 return BadRequest();
@@ -131,6 +137,7 @@ namespace WebApplication2.Controllers
 
         // POST: api/Vehicules
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Vehicule>> PostVehicule(Vehicule vehicule)
         {
@@ -145,6 +152,7 @@ namespace WebApplication2.Controllers
         }
 
         // DELETE: api/Vehicules/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicule(int id)
         {

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Components.Server.Circuits;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -22,6 +24,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Cotisations
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Cotisation>>> GetCotisations()
         {
           if (_context.Cotisations == null)
@@ -33,6 +36,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Cotisations/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Cotisation>> GetCotisation(int id)
         {
           if (_context.Cotisations == null)
@@ -52,8 +56,10 @@ namespace WebApplication2.Controllers
         // PUT: api/Cotisations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutCotisation(int id, Cotisation cotisation)
         {
+            cotisation.UpdatedAt = DateTime.Now;
             if (id != cotisation.Id)
             {
                 return BadRequest();
@@ -97,6 +103,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/Cotisations/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteCotisation(int id)
         {
             if (_context.Cotisations == null)

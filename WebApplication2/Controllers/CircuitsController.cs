@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -22,6 +23,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Circuits
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Circuit>>> GetCircuits()
         {
           if (_context.Circuits == null)
@@ -33,6 +35,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Circuits/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Circuit>> GetCircuit(int id)
         {
           if (_context.Circuits == null)
@@ -52,8 +55,10 @@ namespace WebApplication2.Controllers
         // PUT: api/Circuits/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutCircuit(int id, Circuit circuit)
         {
+            circuit.UpdatedAt = DateTime.Now;
             if (id != circuit.Id)
             {
                 return BadRequest();
@@ -83,6 +88,7 @@ namespace WebApplication2.Controllers
         // POST: api/Circuits
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Circuit>> PostCircuit(Circuit circuit)
         {
           if (_context.Circuits == null)
@@ -97,6 +103,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/Circuits/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteCircuit(int id)
         {
             if (_context.Circuits == null)

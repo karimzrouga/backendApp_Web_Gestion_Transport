@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication2.Controllers
 {
@@ -22,6 +23,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Facturations
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Facturation>>> GetFacturations()
         {
           if (_context.Facturations == null)
@@ -33,6 +35,7 @@ namespace WebApplication2.Controllers
 
         // GET: api/Facturations/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Facturation>> GetFacturation(int id)
         {
           if (_context.Facturations == null)
@@ -52,8 +55,10 @@ namespace WebApplication2.Controllers
         // PUT: api/Facturations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutFacturation(int id, Facturation facturation)
         {
+            facturation.UpdatedAt = DateTime.Now;
             if (id != facturation.Id)
             {
                 return BadRequest();
@@ -83,6 +88,7 @@ namespace WebApplication2.Controllers
         // POST: api/Facturations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Facturation>> PostFacturation(Facturation facturation)
         {
           if (_context.Facturations == null)
@@ -97,6 +103,7 @@ namespace WebApplication2.Controllers
 
         // DELETE: api/Facturations/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteFacturation(int id)
         {
             if (_context.Facturations == null)
