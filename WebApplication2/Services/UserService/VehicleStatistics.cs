@@ -4,8 +4,9 @@
     {
         public string AgencyName { get; set; }
         public string StationName { get; set; }
-        public string matricule { get; set; }
+    
+        public string Matricule { get; set; }
         public int VehicleCount { get; set; }
-        public int stationcount { get; set; }
+        public int StationCount { get; set; }
     }
 }
