@@ -68,9 +68,9 @@ namespace WebApplication2.Controllers
                 {
                     AgencyName = a.Name,
                     StationName = s.Lieu,
-                    stationcount = v.Stations.Count(),
+                    StationCount = v.Stations.Count(),
                     VehicleCount = a.Vehicules.Count(),
-                     matricule=v.Immatricule,
+                    Matricule = v.Immatricule,
                 })))
                 .ToList();
 
