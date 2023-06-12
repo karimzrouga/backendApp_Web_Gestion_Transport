@@ -10916,11 +10916,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ZROUG\\source\\repos\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+      "projectUniqueName": "C:\\Users\\ZROUG\\Source\\Repos\\backendWebApplication2\\WebApplication2\\WebApplication2.csproj",
       "projectName": "WebApplication2",
-      "projectPath": "C:\\Users\\ZROUG\\source\\repos\\WebApplication2\\WebApplication2\\WebApplication2.csproj",
+      "projectPath": "C:\\Users\\ZROUG\\Source\\Repos\\backendWebApplication2\\WebApplication2\\WebApplication2.csproj",
       "packagesPath": "C:\\Users\\ZROUG\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ZROUG\\source\\repos\\WebApplication2\\WebApplication2\\obj\\",
+      "outputPath": "C:\\Users\\ZROUG\\Source\\Repos\\backendWebApplication2\\WebApplication2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ZROUG\\AppData\\Roaming\\NuGet\\NuGet.Config",

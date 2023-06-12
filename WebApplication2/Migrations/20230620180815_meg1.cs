@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApplication2.Migrations
 {
     /// <inheritdoc />
-    public partial class m1 : Migration
+    public partial class meg1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace WebApplication2.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RaisonSocial = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Matricule = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Matricule = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -38,6 +38,7 @@ namespace WebApplication2.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CircuitName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cout = table.Column<double>(type: "float", nullable: false),
+                    Km = table.Column<double>(type: "float", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -119,6 +120,8 @@ namespace WebApplication2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
                     Lieu = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -180,7 +183,7 @@ namespace WebApplication2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Immatricule = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Immatricule = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Capacite = table.Column<int>(type: "int", nullable: false),
                     AgenceId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -198,6 +201,30 @@ namespace WebApplication2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CircuitStation",
+                columns: table => new
+                {
+                    CircuitsId = table.Column<int>(type: "int", nullable: false),
+                    StationsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CircuitStation", x => new { x.CircuitsId, x.StationsId });
+                    table.ForeignKey(
+                        name: "FK_CircuitStation_Circuits_CircuitsId",
+                        column: x => x.CircuitsId,
+                        principalTable: "Circuits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CircuitStation_Stations_StationsId",
+                        column: x => x.StationsId,
+                        principalTable: "Stations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -206,12 +233,13 @@ namespace WebApplication2.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Mdp = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Matricule = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Matricule = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StationId = table.Column<int>(type: "int", nullable: true),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     PermissionId = table.Column<int>(type: "int", nullable: false),
                     Plansection = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -248,30 +276,11 @@ namespace WebApplication2.Migrations
                         column: x => x.ShiftId,
                         principalTable: "Shifts",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CircuitStation",
-                columns: table => new
-                {
-                    CircuitsId = table.Column<int>(type: "int", nullable: false),
-                    StationsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CircuitStation", x => new { x.CircuitsId, x.StationsId });
                     table.ForeignKey(
-                        name: "FK_CircuitStation_Circuits_CircuitsId",
-                        column: x => x.CircuitsId,
-                        principalTable: "Circuits",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CircuitStation_Stations_StationsId",
-                        column: x => x.StationsId,
+                        name: "FK_Users_Stations_StationId",
+                        column: x => x.StationId,
                         principalTable: "Stations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -322,6 +331,12 @@ namespace WebApplication2.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Agences_Matricule",
+                table: "Agences",
+                column: "Matricule",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CircuitStation_StationsId",
                 table: "CircuitStation",
                 column: "StationsId");
@@ -347,9 +362,21 @@ namespace WebApplication2.Migrations
                 column: "VehiculesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_ListePlanificationId",
                 table: "Users",
                 column: "ListePlanificationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Matricule",
+                table: "Users",
+                column: "Matricule",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_PermissionId",
@@ -367,9 +394,20 @@ namespace WebApplication2.Migrations
                 column: "ShiftId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_StationId",
+                table: "Users",
+                column: "StationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vehicules_AgenceId",
                 table: "Vehicules",
                 column: "AgenceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicules_Immatricule",
+                table: "Vehicules",
+                column: "Immatricule",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -397,9 +435,6 @@ namespace WebApplication2.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Stations");
-
-            migrationBuilder.DropTable(
                 name: "Vehicules");
 
             migrationBuilder.DropTable(
@@ -413,6 +448,9 @@ namespace WebApplication2.Migrations
 
             migrationBuilder.DropTable(
                 name: "Shifts");
+
+            migrationBuilder.DropTable(
+                name: "Stations");
 
             migrationBuilder.DropTable(
                 name: "Agences");

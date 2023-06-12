@@ -31,7 +31,7 @@ namespace WebApplication2.Controllers
           {
               return NotFound();
           }
-            return await _context.Cotisations.ToListAsync();
+            return await _context.Cotisations.Include(e => e.User).ToListAsync();
         }
 
         // GET: api/Cotisations/5

@@ -13,7 +13,7 @@ public partial class Cotisation
     public double Montant { get; set; }
 
     public int UserId { get; set; }
-    [JsonIgnore]
+  
     public virtual User ?User { get; set; }
 
     public DateTime CreatedAt { get; set; }
