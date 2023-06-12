@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(PfeContext))]
-    [Migration("20230603145659_m1")]
-    partial class m1
+    [Migration("20230620180815_meg1")]
+    partial class meg1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,7 @@ namespace WebApplication2.Migrations
 
                     b.Property<string>("Matricule")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -75,6 +75,9 @@ namespace WebApplication2.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Matricule")
+                        .IsUnique();
 
                     b.ToTable("Agences");
                 });
@@ -96,6 +99,9 @@ namespace WebApplication2.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("Km")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -324,9 +330,15 @@ namespace WebApplication2.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
                     b.Property<string>("Lieu")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -349,18 +361,14 @@ namespace WebApplication2.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ListePlanificationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Matricule")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Mdp")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Nom")
                         .IsRequired()
@@ -396,6 +404,9 @@ namespace WebApplication2.Migrations
                     b.Property<int?>("ShiftId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("StationId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TokenCreated")
                         .HasColumnType("datetime2");
 
@@ -405,15 +416,27 @@ namespace WebApplication2.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("ListePlanificationId");
+
+                    b.HasIndex("Matricule")
+                        .IsUnique();
 
                     b.HasIndex("PermissionId");
 
                     b.HasIndex("RoleId");
 
                     b.HasIndex("ShiftId");
+
+                    b.HasIndex("StationId");
 
                     b.ToTable("Users");
                 });
@@ -437,7 +460,7 @@ namespace WebApplication2.Migrations
 
                     b.Property<string>("Immatricule")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -445,6 +468,9 @@ namespace WebApplication2.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AgenceId");
+
+                    b.HasIndex("Immatricule")
+                        .IsUnique();
 
                     b.ToTable("Vehicules");
                 });
@@ -534,6 +560,10 @@ namespace WebApplication2.Migrations
                         .WithMany("Users")
                         .HasForeignKey("ShiftId");
 
+                    b.HasOne("Gestpsfe.Models.Station", "Station")
+                        .WithMany("Users")
+                        .HasForeignKey("StationId");
+
                     b.Navigation("Permission");
 
                     b.Navigation("Planification");
@@ -541,6 +571,8 @@ namespace WebApplication2.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("Shift");
+
+                    b.Navigation("Station");
                 });
 
             modelBuilder.Entity("Gestpsfe.Models.Vehicule", b =>
@@ -594,6 +626,11 @@ namespace WebApplication2.Migrations
                 });
 
             modelBuilder.Entity("Gestpsfe.Models.Shift", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Gestpsfe.Models.Station", b =>
                 {
                     b.Navigation("Users");
                 });
