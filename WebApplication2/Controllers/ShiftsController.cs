@@ -31,7 +31,7 @@ namespace WebApplication2.Controllers
           {
               return NotFound();
           }
-            return await _context.Shifts.Include(e => e.Users).ToListAsync();
+            return await _context.Shifts.Include(e => e.Users).Include(e => e.Circuits).ToListAsync();
         }
 
         // GET: api/Shifts/5

@@ -13,6 +13,7 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace WebApplication2.Controllers
 {
@@ -36,6 +37,11 @@ namespace WebApplication2.Controllers
         [HttpGet("/statusers")]
         public async Task<ActionResult<IEnumerable<UserStatistics>>> GetStatistics()
         {
+            var totalu = await _context.Users.ToListAsync();
+            DateTime lastMonth = DateTime.Now.AddMonths(-1);
+            int lastMonthUsers = await _context.Users
+          .Where(u => u.CreatedAt >= lastMonth)
+          .CountAsync();
             var statistics = _context.Users
          .Join(
              _context.ListePlanifications,
@@ -50,7 +56,9 @@ namespace WebApplication2.Controllers
              ShiftId = g.Key.ShiftId,
              PlanificationId = g.Key.ListePlanificationId,
              PlanificationName = g.Key.PlanificationName,
-             UserCount = g.Count()
+             UserCount = g.Count(),
+             total= totalu.Count(),
+             totallastMonth = lastMonthUsers
          })
          .OrderBy(s => s.PlanificationId)
          .ToList();
@@ -59,25 +67,35 @@ namespace WebApplication2.Controllers
         }
 
 
-       
+
         [HttpGet("/statvegicules")]
         public IActionResult GetVehicleStatistics()
         {
-            var statistics = _context.Agences
-                .SelectMany(a => a.Vehicules.SelectMany(v => v.Stations.Select(s => new VehicleStatistics
-                {
-                    AgencyName = a.Name,
-                    StationName = s.Lieu,
-                    StationCount = v.Stations.Count(),
-                    VehicleCount = a.Vehicules.Count(),
-                    Matricule = v.Immatricule,
-                })))
+            var currentDate = DateTime.Now;
+            var lastMonthDate = currentDate.AddMonths(-1);
+            var vehicleCountByAgency = _context.Vehicules
+                .Include(v => v.Agence) // Include the Agence navigation property
+                .GroupBy(v => new { v.AgenceId, v.Agence.Name }) // Group by AgenceId and Agence.Name
+                .Select(g => new { g.Key.AgenceId, g.Key.Name, VehicleCount = g.Count() })
                 .ToList();
+            var totalAgencies = vehicleCountByAgency.Count;
+
+            var AgenciesFromLastMonth = _context.Vehicules.Where(v => v.CreatedAt >= lastMonthDate && v.CreatedAt <= currentDate)
+        .Count();
+            var totalVehicles = vehicleCountByAgency.Sum(v => v.VehicleCount);
+
+            var statistics = new
+            {
+                TotalAgencies = totalAgencies,
+                TotalVehicules = totalVehicles,
+                AgenciesFromLastMonth = AgenciesFromLastMonth,
+                VehicleCountByAgency = vehicleCountByAgency
+            };
 
             return Ok(statistics);
         }
 
-     
+
         [HttpGet("/statplanification")]
         public IActionResult GetStatisticsByAgencyAndCapacity()
         {

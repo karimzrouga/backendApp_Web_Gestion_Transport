@@ -30,7 +30,7 @@ namespace WebApplication2.Controllers
           {
               return NotFound();
           }
-            return await _context.Circuits.Include(e => e.Stations).ToListAsync();
+            return await _context.Circuits.Include(e => e.Stations).Include(e => e.Shifts).ToListAsync();
         }
 
         // GET: api/Circuits/5

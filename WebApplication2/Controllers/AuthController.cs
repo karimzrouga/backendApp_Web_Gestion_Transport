@@ -52,7 +52,39 @@ namespace WebApplication2.Controllers
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(authuser u)
-        {
+        {  
+
+              if (!_context.Users.Any())
+    {
+
+                _context.Users.AddRange(
+        new User
+        { Nom = "admin",
+            Email = "admin@gmail.com",
+            password = "admin@gmail.com",
+            Matricule = "ABC123",
+            Adresse="",
+            RoleId = 1,
+            PermissionId = 1,
+            Plansection = "Section A",
+            Segment = "Segment 1",
+            ListePlanificationId = 1,
+            ShiftId = 1,
+            Salaire = 0000.0,
+            TokenCreated = DateTime.Now,
+            TokenExpires = DateTime.Now.AddDays(7)
+        }
+      
+    );
+
+                _context.SaveChanges();
+    }
+
+
+
+
+
+
 
             myuser = await _context.Users.Include(e => e.Role)
                   .FirstOrDefaultAsync(e => e.password == u.Mdp && e.Email==u.Email);
@@ -80,7 +112,8 @@ namespace WebApplication2.Controllers
                 Token = token,
                 UserId = myuser.Id,
                 Role = myuser.Role.RoleName,
-                PermissionId = myuser.PermissionId
+                PermissionId = myuser.PermissionId,
+                routes = myuser.Role.Description
             };
 
             return Ok(response);
