@@ -17,7 +17,7 @@ public partial class User
     [Required]
     [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Invalid email format.")]
     public string? Email { get; set; }
-
+    public string? adresse { get; set; }
     [Required]
     [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "Invalid password format. It must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.")]
     public string? password { get; set; }
@@ -30,7 +30,8 @@ public partial class User
   
     [Required]
     public string Matricule { get; set; } = null!;
-
+    public int? StationId { get; set; }
+    public virtual Station? Station { get; set; }
     [Required]
     public int? RoleId { get; set; }
     public virtual Role? Role { get; set; }
@@ -53,7 +54,7 @@ public partial class User
     public virtual Shift? Shift { get; set; }
 
     public double Salaire { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<Cotisation> ?Cotisations { get; set; } = new List<Cotisation>();
     public DateTime TokenCreated { get; set; }
     public DateTime TokenExpires { get; set; }

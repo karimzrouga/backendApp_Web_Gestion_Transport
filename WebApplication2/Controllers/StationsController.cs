@@ -30,7 +30,7 @@ namespace WebApplication2.Controllers
           {
               return NotFound();
           }
-            return await _context.Stations.Include(e => e.Vehicules).Include(e => e.Circuits).ToListAsync();
+            return await _context.Stations.Include(e => e.Vehicules).Include(e => e.Circuits).Include(e => e.Users).ToListAsync();
         }
 
 
@@ -132,15 +132,26 @@ namespace WebApplication2.Controllers
         // POST: api/Stations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
          //[Authorize]
-        [HttpPost]
-        public async Task<ActionResult<Station>> PostStation(Station station)
+        [HttpPost("{id}")]
+        public async Task<ActionResult<Station>> PostStation(Station station , int id)
         {
-          if (_context.Stations == null)
+            if (_context.Circuits == null)
+            {
+                return Problem("Entity set 'PfeContext.Circuits'  is null.");
+            }
+
+            if (_context.Stations == null)
           {
               return Problem("Entity set 'PfeContext.Stations'  is null.");
           }
+           var c = await _context.Circuits.FirstOrDefaultAsync(e => e.Id == id);
+            station.Circuits.Add(c);
             _context.Stations.Add(station);
             await _context.SaveChangesAsync();
+
+            
+
+
 
             return CreatedAtAction("GetStation", new { id = station.Id }, station);
         }
