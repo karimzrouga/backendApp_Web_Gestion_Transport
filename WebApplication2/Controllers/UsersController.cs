@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gestpsfe.Models;
 using Microsoft.AspNetCore.Authorization;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using System.Collections;
 
 namespace WebApplication2.Controllers
 {
@@ -26,7 +28,8 @@ namespace WebApplication2.Controllers
           {
               return NotFound();
           }
-            return await _context.Users.Include(e=>e.Cotisations).ToListAsync();
+            return await _context.Users.Include(e=>e.Cotisations).Include(e => e.Cotisations).Include(e => e.Permission).Include(e => e.Role).Include(e => e.Shift)
+              .ToListAsync();
         }
 
         // GET: api/Users/5
@@ -55,6 +58,8 @@ namespace WebApplication2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
+           
+
             if (id != user.Id)
             {
                 return BadRequest();

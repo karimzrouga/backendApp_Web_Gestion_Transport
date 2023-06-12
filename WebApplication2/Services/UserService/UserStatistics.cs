@@ -7,6 +7,9 @@
         public string Planification { get; set; }
         public int Month { get; set; }
         public int UserCount { get; set; }
+        public int total { get; set; }
+        public int totallastMonth { get; set; }
+     
     }
 
     public class UserStatisticsRequest

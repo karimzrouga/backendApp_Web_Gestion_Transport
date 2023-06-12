@@ -4,6 +4,7 @@ using Gestpsfe.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(PfeContext))]
-    partial class PfeContextModelSnapshot : ModelSnapshot
+    [Migration("20230614153923_meg")]
+    partial class meg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace WebApplication2.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CircuitShift", b =>
-                {
-                    b.Property<int>("CircuitsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShiftsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CircuitsId", "ShiftsId");
-
-                    b.HasIndex("ShiftsId");
-
-                    b.ToTable("CircuitShift");
-                });
 
             modelBuilder.Entity("CircuitStation", b =>
                 {
@@ -339,15 +327,9 @@ namespace WebApplication2.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
-
                     b.Property<string>("Lieu")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Longitude")
-                        .HasColumnType("float");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -492,21 +474,6 @@ namespace WebApplication2.Migrations
                     b.HasIndex("VehiculesId");
 
                     b.ToTable("StationVehicule");
-                });
-
-            modelBuilder.Entity("CircuitShift", b =>
-                {
-                    b.HasOne("Gestpsfe.Models.Circuit", null)
-                        .WithMany()
-                        .HasForeignKey("CircuitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Gestpsfe.Models.Shift", null)
-                        .WithMany()
-                        .HasForeignKey("ShiftsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CircuitStation", b =>
