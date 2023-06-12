@@ -63,18 +63,13 @@ namespace WebApplication2.Controllers
         [HttpGet("/statvegicules")]
         public IActionResult GetVehicleStatistics()
         {
-            var statistics = _context.Agences
-                .SelectMany(a => a.Vehicules.SelectMany(v => v.Stations.Select(s => new VehicleStatistics
-                {
-                    AgencyName = a.Name,
-                    StationName = s.Lieu,
-                    StationCount = v.Stations.Count(),
-                    VehicleCount = a.Vehicules.Count(),
-                    Matricule = v.Immatricule,
-                })))
-                .ToList();
+            var vehicleCountByAgency = _context.Vehicules
+          .Include(v => v.Agence) // Include the Agence navigation property
+          .GroupBy(v => new { v.AgenceId, v.Agence.Name }) // Group by AgenceId and Agence.Name
+          .Select(g => new { g.Key.AgenceId, g.Key.Name, VehicleCount = g.Count() })
+          .ToList();
 
-            return Ok(statistics);
+            return Ok(vehicleCountByAgency);
         }
 
      
